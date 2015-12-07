@@ -6,7 +6,7 @@ import khumps.firstmod.Strings;
 public class TileRegistry {
 
 	private static void register() {
-		GameRegistry.registerTileEntity(TileFurnaceBroken.class, Strings.MODID + "test");
+		GameRegistry.registerTileEntity(TileFurnace.class, Strings.MODID + "test");
 		// GameRegistry.registerTileEntity(TileBasicMachine.class,
 		// "tileBasicMachine");
 	}

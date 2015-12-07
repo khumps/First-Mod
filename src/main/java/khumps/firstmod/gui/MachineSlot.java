@@ -4,7 +4,6 @@ import khumps.firstmod.tile.FurnaceSlotSetBroken;
 import khumps.firstmod.utils.MachineUtils;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class MachineSlot extends net.minecraft.inventory.Slot {
 	public int slotType;

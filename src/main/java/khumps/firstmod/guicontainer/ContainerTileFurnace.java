@@ -1,7 +1,7 @@
 package khumps.firstmod.guicontainer;
 
 import khumps.firstmod.gui.MachineSlot;
-import khumps.firstmod.tile.FurnaceSlotSetBroken;
+import khumps.firstmod.tile.FurnaceSlotSet;
 import khumps.firstmod.tile.TileFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -24,12 +24,12 @@ public class ContainerTileFurnace extends Container {
 	}
 
 	private void initSlots(IInventory playerInv) {
-		addSlotToContainer(new MachineSlot(te, 0, 8, 59, FurnaceSlotSetBroken.FUELSLOT));
+		addSlotToContainer(new MachineSlot(te, 0, 8, 59, FurnaceSlotSet.FUELSLOT));
 		for (int i = 0; i < TileFurnace.NUMSLOTS; i++) {
-			for (int j = 1; j < FurnaceSlotSetBroken.NUMSLOTS; j++) {
+			for (int j = 1; j < FurnaceSlotSet.NUMSLOTS; j++) {
 				int slotX = 52 + (i * 24);
 				int slotY = 15 + ((j - 1) * 44);
-				int slotNum = i * (FurnaceSlotSetBroken.NUMSLOTS - 1) + j;
+				int slotNum = i * (FurnaceSlotSet.NUMSLOTS - 1) + j;
 				// System.out.println(slotNum);
 				addSlotToContainer(new MachineSlot(te, slotNum, slotX, slotY, j));
 			}

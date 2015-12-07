@@ -10,10 +10,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileFurnaceBroken extends TileEntity implements IInventory {
+public class TileFurnace extends TileEntity implements IInventory {
 	protected ItemStack[] inventory;
-	private FurnaceSlotSetBroken[] slots;
-	public static final int NUMSLOTS = 1;
+	private FurnaceSlotSet[] slots;
+	public static final int NUMSLOTS = 3;
 	private String customName;
 	protected boolean isBurning;
 	private int burnTime;
@@ -21,8 +21,9 @@ public class TileFurnaceBroken extends TileEntity implements IInventory {
 	public final int TOTALCOOKTIME = 40;
 	public final int TOTALCOOKSCALED;
 
-	public TileFurnaceBroken() {
-		slots = new FurnaceSlotSetBroken[NUMSLOTS];
+	public TileFurnace() {
+		super();
+		slots = new FurnaceSlotSet[NUMSLOTS];
 		inventory = new ItemStack[NUMSLOTS * 2 + 1];
 		initSlotSets();
 		TOTALCOOKSCALED = 24;
@@ -32,36 +33,33 @@ public class TileFurnaceBroken extends TileEntity implements IInventory {
 		inventory[0] = null;
 		int j = 0;
 		for (int i = 0; i < slots.length; i++) {
-			slots[i] = new FurnaceSlotSetBroken(0, i * (FurnaceSlotSetBroken.NUMSLOTS - 1) + 1,
-					i * (FurnaceSlotSetBroken.NUMSLOTS - 1) + 2, this, TOTALCOOKTIME, i);
+			slots[i] = new FurnaceSlotSet(0, i * (FurnaceSlotSet.NUMSLOTS - 1) + 1,
+					i * (FurnaceSlotSet.NUMSLOTS - 1) + 2, this, TOTALCOOKTIME, i);
 		}
 	}
 
 	@Override
 	public void updateEntity() {
-		if (burnTime == 0)
-			setBurning(false);
 		if (isBurning) {
 			smelt();
-			burnTime--;
+			if (burnTime == 0)
+				isBurning = false;
+			else
+				burnTime--;
 		}
-		//System.out.println(!isSmelting());
-		if (!isSmelting()) {
-			//System.out.println("HERE");
-			if (needsSmelting()) {
-				consumeFuel();
-			}
-		}
+		if (needsSmelting())
+			consumeFuel();
+
 	}
 
 	private void smelt() {
-		for (FurnaceSlotSetBroken s : slots) {
+		for (FurnaceSlotSet s : slots) {
 			s.update();
 		}
 	}
 
 	private boolean isSmelting() {
-		for (FurnaceSlotSetBroken s : slots) {
+		for (FurnaceSlotSet s : slots) {
 			if (s.isSmelting)
 				return true;
 		}
@@ -207,13 +205,13 @@ public class TileFurnaceBroken extends TileEntity implements IInventory {
 	}
 
 	private boolean needsSmelting() {
-		//if (!isBurning) {
-			for (FurnaceSlotSetBroken s : slots) {
-				if (s.stuffToSmelt()) {
-					return true;
-				}
+		 if (!isBurning) {
+		for (FurnaceSlotSet s : slots) {
+			if (s.stuffToSmelt()) {
+				return true;
 			}
-		//}
+		}
+		 }
 		return false;
 	}
 
@@ -277,7 +275,7 @@ public class TileFurnaceBroken extends TileEntity implements IInventory {
 		return true;
 	}
 
-	public FurnaceSlotSetBroken[] getSlots() {
+	public FurnaceSlotSet[] getSlots() {
 		return slots;
 	}
 

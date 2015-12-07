@@ -18,6 +18,8 @@ public class FurnaceSlotSet {
 	private int TIMETOSMELT;
 	private int smeltTime;
 	public static final int NUMSLOTS = 3;
+	private ItemStack currentSmelting;
+	private ItemStack[] inventory;
 
 	public FurnaceSlotSet(int fuel, int in, int out, TileFurnace tileFurnace, int smeltTime, int slotNum) {
 		this.fuel = fuel;
@@ -26,17 +28,80 @@ public class FurnaceSlotSet {
 		this.furnace = tileFurnace;
 		TIMETOSMELT = smeltTime;
 		SLOTNUM = slotNum;
+		inventory = furnace.inventory;
 	}
 
 	public void update() {
+		System.out.println(smeltTime);
+		if (canKeepSmelting()) {
+			if (smeltTime == 0)
+				cookItem();
+			else
+				smeltTime--;
+		} else {
+			if (grabItemForSmelting()) {
+				isSmelting = true;
+				System.out.println("HERE");
+				smeltTime = TIMETOSMELT;
+			}
+		}
+
 	}
 
+	/**
+	 * pulls item from in slot and stores it while it is being smelted
+	 * 
+	 * @return
+	 */
+	private boolean grabItemForSmelting() {
+		System.out.println(stuffToSmelt());
+		if (stuffToSmelt() && sameItem(getSmeltingResult(inventory[in]), inventory[out])) {
+			System.out.println("grab");
+			currentSmelting = new ItemStack(inventory[in].getItem());
+			furnace.decrStackSize(in, 1);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * checks to make sure that there is still an item to smelt and that the
+	 * furnace is still burning
+	 * 
+	 * @return
+	 */
+	public boolean canKeepSmelting() {
+		System.out.println(currentSmelting);
+		return currentSmelting != null && furnace.isBurning;
+	}
+
+	/**
+	 * Checks that there is still stuff to smelt
+	 * 
+	 * @return inventory[in] != null
+	 */
 	public boolean stuffToSmelt() {
-		return furnace.inventory[in] != null;
+		return inventory[in] != null;
 	}
 
 	private void cookItem() {
+		addToStack(out, getSmeltingResult(currentSmelting), 1);
+		currentSmelting = null;
+		isSmelting = false;
+	}
 
+	private boolean addToStack(int slot, ItemStack item, int numItems) {
+		if (furnace.inventory[slot] == null) {
+			furnace.inventory[slot] = new ItemStack(item.getItem());
+			furnace.inventory[slot].stackSize = numItems;
+			furnace.markDirty();
+			return true;
+		} else if (furnace.inventory[slot].isItemEqual(item)) {
+			furnace.inventory[slot].stackSize += numItems;
+			furnace.markDirty();
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isValidForSlot(int slot, ItemStack stack) {
@@ -54,19 +119,6 @@ public class FurnaceSlotSet {
 
 	public boolean isSmelting() {
 		return isSmelting;
-	}
-
-	public boolean canSmelt() {
-		if (!furnace.isBurning && isSmelting) {
-			isSmelting = false;
-			smeltTime = TIMETOSMELT;
-		}
-		
-		
-		
-		if (furnace.isBurning)
-			return furnace.inventory[in] != null;
-		return false;
 	}
 
 	private boolean canBeSmelted() {
@@ -94,7 +146,7 @@ public class FurnaceSlotSet {
 		if (b != null) {
 			return a.getItem() == b.getItem();
 		}
-		return false;
+		return b == null;
 	}
 
 	public int getSmeltTime() {

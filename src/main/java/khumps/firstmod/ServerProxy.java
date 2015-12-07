@@ -3,7 +3,6 @@ package khumps.firstmod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import khumps.firstmod.tile.TileRegistry;
 
 public class ServerProxy extends CommonProxy {
 

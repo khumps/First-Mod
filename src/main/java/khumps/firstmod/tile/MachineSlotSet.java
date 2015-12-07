@@ -1,12 +1,10 @@
 package khumps.firstmod.tile;
 
-import java.util.HashMap;
-
 import khumps.firstmod.handlers.MachineRecipes;
 import khumps.firstmod.utils.MachineUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagCompound;;
 
 public class MachineSlotSet {
 	public final int SLOTNUM;
