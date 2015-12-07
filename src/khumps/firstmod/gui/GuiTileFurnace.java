@@ -2,9 +2,7 @@ package khumps.firstmod.gui;
 
 import khumps.firstmod.Strings;
 import khumps.firstmod.guicontainer.ContainerTileFurnace;
-import khumps.firstmod.tile.FurnaceSlotSetBroken;
 import khumps.firstmod.tile.TileFurnace;
-import khumps.firstmod.tile.Broken;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;

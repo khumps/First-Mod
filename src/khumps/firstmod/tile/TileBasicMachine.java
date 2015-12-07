@@ -29,7 +29,7 @@ public class TileBasicMachine extends TileEntity implements IInventory {
 	public int TOTALPROCESSTIME = 40; // time required to process an item
 	public final int TOTALPROCESSTIMESCALED; // process time scaled to fit the
 												// arrow in the gui
- 
+
 	public TileBasicMachine(MachineType type, MachineTier tier) {
 		this.type = type;
 		this.tier = tier;
@@ -39,6 +39,10 @@ public class TileBasicMachine extends TileEntity implements IInventory {
 		inventory = new ItemStack[NUMSETS * NUMSLOTS + EXTRASLOTS];
 		initSlotSets();
 		TOTALPROCESSTIMESCALED = 24;
+	}
+
+	public TileBasicMachine() {
+		this(MachineType.SMELTING, MachineTier.BASIC);
 	}
 
 	private void initSlotSets() {

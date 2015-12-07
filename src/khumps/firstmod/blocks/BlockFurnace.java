@@ -5,7 +5,7 @@ import java.util.Random;
 import khumps.firstmod.FirstMod;
 import khumps.firstmod.FirstModGuiHandler;
 import khumps.firstmod.Strings;
-import khumps.firstmod.tile.Broken;
+import khumps.firstmod.tile.TileFurnace;
 import khumps.firstmod.utils.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -13,13 +13,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -70,7 +66,7 @@ public class BlockFurnace extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new Broken();
+		return new TileFurnace();
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_,
@@ -93,7 +89,7 @@ public class BlockFurnace extends BlockContainer {
 	}
 
 	public void breakBlock(World world, int x, int y, int z, Block block, int p_149749_6_) {
-		Broken te = (Broken) world.getTileEntity(x, y, z);
+		TileFurnace te = (TileFurnace) world.getTileEntity(x, y, z);
 		BlockUtils.dropInventory(world, x, y, z, block, te);
 		super.breakBlock(world, x, y, z, block, p_149749_6_);
 	}
